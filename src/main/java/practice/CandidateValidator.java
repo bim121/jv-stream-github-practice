@@ -10,25 +10,18 @@ public class CandidateValidator implements Predicate<Candidate> {
 
     @Override
     public boolean test(Candidate candidate) {
-        if (candidate == null) {
-            return false;
-        }
+        return candidate != null
+                && candidate.getAge() >= MIN_AGE
+                && candidate.isAllowedToVote()
+                && COUNTRY_CANDIDATE_NAME.equalsIgnoreCase(candidate.getNationality())
+                && hasEnoughExperience(candidate.getPeriodsInUkr());
+    }
 
-        if (candidate.getAge() < MIN_AGE) {
+    private boolean hasEnoughExperience(String periodsInUkr) {
+        if (periodsInUkr == null || !periodsInUkr.contains("-")) {
             return false;
         }
-        if (!candidate.isAllowedToVote()) {
-            return false;
-        }
-        if (!COUNTRY_CANDIDATE_NAME.equalsIgnoreCase(candidate.getNationality())) {
-            return false;
-        }
-
-        String[] years = candidate.getPeriodsInUkr().split("-");
-        if (years.length != 2) {
-            return false;
-        }
-
+        String[] years = periodsInUkr.split("-");
         try {
             int from = Integer.parseInt(years[0].trim());
             int to = Integer.parseInt(years[1].trim());
