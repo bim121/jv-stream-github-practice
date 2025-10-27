@@ -1,10 +1,10 @@
 package practice;
 
-import model.Candidate;
 import java.util.function.Predicate;
+import model.Candidate;
 
 public class CandidateValidator implements Predicate<Candidate> {
-    private final String COUNTRY_CANDIDATE_NAME = "Ukrainian";
+    private static final String COUNTRY_CANDIDATE_NAME = "Ukrainian";
 
     @Override
     public boolean test(Candidate candidate) {
